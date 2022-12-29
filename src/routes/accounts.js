@@ -1,37 +1,41 @@
-module.exports = (app) => {
-	const findAll = (req, res) => {
-		app.services.account.findAll().then((result) => res.status(200).json(result));
-	};
+const express = require('express');
 
-	const create = (req, res, next) => {
+module.exports = (app) => {
+	const router = express.Router();
+
+	router.post('/', (req, res, next) => {
 		app.services.account
 			.save(req.body)
 			.then((result) => {
 				return res.status(201).json(result[0]);
 			})
 			.catch((err) => next(err));
-	};
+	});
 
-	const get = (req, res, next) => {
+	router.get('/', (req, res) => {
+		app.services.account.findAll().then((result) => res.status(200).json(result));
+	});
+
+	router.get('/:id', (req, res, next) => {
 		app.services.account
 			.find({ id: req.params.id })
 			.then((result) => res.status(200).json(result))
 			.catch((err) => next(err));
-	};
+	});
 
-	const update = (req, res, next) => {
+	router.put('/:id', (req, res, next) => {
 		app.services.account
 			.update(req.params.id, req.body)
 			.then((result) => res.status(200).json(result[0]))
 			.catch((err) => next(err));
-	};
+	});
 
-	const remove = (req, res, next) => {
+	router.delete('/:id', (req, res, next) => {
 		app.services.account
 			.remove(req.params.id)
 			.then(() => res.status(204).send())
 			.catch((err) => next(err));
-	};
+	});
 
-	return { findAll, create, get, update, remove };
+	return router;
 };
