@@ -1,12 +1,12 @@
 module.exports = {
 	test: {
 		client: 'pg',
-		version: '9.6',
+		version: '15.1',
 		connection: {
 			host: 'localhost',
 			user: 'postgres',
 			password: 'root',
-			database: 'barriga',
+			database: 'db_api_rest_com_jest',
 		},
 		migrations: {
 			directory: 'src/migrations',

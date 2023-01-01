@@ -3,18 +3,22 @@ const ValidationError = require('../errors/ValidationError');
 module.exports = (app) => {
 	const MAIN_DATABASE = 'accounts';
 
-	const findAll = () => {
-		return app.db(MAIN_DATABASE).select();
+	const find = (filter = {}) => {
+		return app.db(MAIN_DATABASE).where(filter).first();
+	};
+
+	const findAll = (userId) => {
+		return app.db(MAIN_DATABASE).where({ user_id: userId });
 	};
 
 	const save = async (account) => {
 		if (!account.name) throw new ValidationError('Nome é um atributo obrigatório');
 
-		return app.db(MAIN_DATABASE).insert(account, '*');
-	};
+		const accDb = await find({ name: account.name, user_id: account.user_id });
 
-	const find = (filter = {}) => {
-		return app.db(MAIN_DATABASE).where(filter).first();
+		if (accDb) throw new ValidationError('Já existe uma conta com esse nome');
+
+		return app.db(MAIN_DATABASE).insert(account, '*');
 	};
 
 	const update = (id, account) => {
@@ -25,5 +29,5 @@ module.exports = (app) => {
 		return app.db(MAIN_DATABASE).where({ id }).del();
 	};
 
-	return { findAll, save, find, update, remove };
+	return { find, findAll, save, update, remove };
 };
