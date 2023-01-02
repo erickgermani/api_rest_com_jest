@@ -7,7 +7,7 @@
 		"start": "node src/server.js",
 		"test": "jest",
 		"lint": "eslint src/** test/** --fix",
-		"sm": "jest --watch --verbose=true --detectOpenHandles"
+		"sm": "jest --watch --verbose=false --detectOpenHandles"
 	},
 	"keywords": [],
 	"author": "",

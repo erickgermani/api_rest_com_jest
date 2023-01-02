@@ -8,7 +8,7 @@ const MAIN_DATABASE = 'accounts';
 let user;
 let user2;
 
-beforeEach(async () => {
+beforeAll(async () => {
 	const res = await app.services.user.save({
 		name: 'Erick Germani',
 		mail: Date.now() + '@mail.com',
@@ -68,25 +68,6 @@ test('Não deve inserir uma conta de nome duplicado para o mesmo usuário', () =
 		});
 });
 
-test('Deve listar apenas as contas do usuário', () => {
-	return app
-		.db(MAIN_DATABASE)
-		.insert([
-			{ name: 'Acc User 1', user_id: user.id },
-			{ name: 'Acc User 2', user_id: user2.id },
-		])
-		.then(() => {
-			request(app)
-				.get(MAIN_ROUTE)
-				.set('authorization', `bearer ${user.token}`)
-				.then((res) => {
-					expect(res.status).toBe(200);
-					expect(res.body.length).toBe(1);
-					expect(res.body[0].name).toBe('Acc User 1');
-				});
-		});
-});
-
 test('Deve retornar uma conta por id', () => {
 	return app
 		.db(MAIN_DATABASE)
@@ -106,6 +87,28 @@ test('Deve retornar uma conta por id', () => {
 			expect(res.status).toBe(200);
 			expect(res.body.name).toBe('Acc by Id');
 			expect(res.body.user_id).toBe(user.id);
+		});
+});
+
+test('Deve listar apenas as contas do usuário', async () => {
+	await app.db('transactions').delete();
+	await app.db(MAIN_DATABASE).delete();
+
+	return app
+		.db(MAIN_DATABASE)
+		.insert([
+			{ name: 'Acc User 1', user_id: user.id },
+			{ name: 'Acc User 2', user_id: user2.id },
+		])
+		.then(() => {
+			request(app)
+				.get(MAIN_ROUTE)
+				.set('authorization', `bearer ${user.token}`)
+				.then((res) => {
+					expect(res.status).toBe(200);
+					expect(res.body.length).toBe(1);
+					expect(res.body[0].name).toBe('Acc User 1');
+				});
 		});
 });
 
