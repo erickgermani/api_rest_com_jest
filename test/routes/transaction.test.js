@@ -117,7 +117,7 @@ test('Transações de saída devem ser negativas', () => {
 		});
 });
 
-describe('Ao tentar inserir uma transação inválida', () => {
+describe('Ao tentar inserir uma transação inválida...', () => {
 	const testTemplate = (newData, errorMessage) => {
 		return request(app)
 			.post(MAIN_ROUTE)
