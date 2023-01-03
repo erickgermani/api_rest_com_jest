@@ -4,7 +4,7 @@ const knex = require('knex');
 
 const knexfile = require('../knexfile');
 
-app.db = knex(knexfile.test);
+app.db = knex(knexfile[process.env.NODE_ENV]);
 
 consign({
 	cwd: 'src',

@@ -17,13 +17,18 @@
 		}
 	},
 	"scripts": {
-		"start": "node src/server.js",
-		"test": "jest --coverage --runInBand --forceExit",
-		"lint": "eslint src/** test/** --fix",
-		"sm": "jest --watch --verbose=false --detectOpenHandles"
+		"start": "NODE_ENV=prod node src/server.js",
+		"test": "NODE_ENV=test jest --coverage --runInBand --forceExit",
+		"sm": "NODE_ENV=test jest --watch --verbose=false --detectOpenHandles",
+		"lint": "eslint src/** test/** --fix"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run lint && npm test"
+		}
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Erick Germani",
 	"license": "ISC",
 	"devDependencies": {
 		"eslint": "^8.30.0",
