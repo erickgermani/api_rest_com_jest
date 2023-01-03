@@ -8,7 +8,7 @@ module.exports = (app) => {
 			.where('date', '<=', new Date())
 			.select('acc.id')
 			.groupBy('acc.id')
-			.orderBy('acc.id', 'asc');
+			.orderBy('acc.id');
 	};
 
 	return { getSaldo };

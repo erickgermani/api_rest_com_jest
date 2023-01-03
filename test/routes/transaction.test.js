@@ -12,6 +12,7 @@ let accUser2;
 
 beforeAll(async () => {
 	await app.db(MAIN_DATABASE).delete();
+	await app.db('transfers').delete();
 	await app.db('accounts').delete();
 	await app.db('users').delete();
 

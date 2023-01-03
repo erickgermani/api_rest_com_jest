@@ -92,6 +92,7 @@ test('Deve retornar uma conta por id', () => {
 
 test('Deve listar apenas as contas do usuário', async () => {
 	await app.db('transactions').delete();
+	await app.db('transfers').delete();
 	await app.db(MAIN_DATABASE).delete();
 
 	return app

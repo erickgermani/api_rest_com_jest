@@ -9,6 +9,9 @@ const TRANSFER_ROUTE = '/v1/transfers';
 const TOKEN =
 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAwIiwibmFtZSI6IlVzZXIgIzMiLCJtYWlsIjoidXNlcjNAbWFpbC5jb20ifQ.kq65elChkjODMW_PAWGloR-CjsL1dB9eyyT6a4hZGas';
 
+const TOKEN_GERAL =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMTAyIiwibmFtZSI6IlVzZXIgIzUiLCJtYWlsIjoidXNlcjVAbWFpbC5jb20ifQ.x3AR3oMTkHahePVP-n5LoWmBeqKJ88NFvCz7GVuvSs0';
+
 beforeAll(async () => {
 	await app.db.seed.run();
 });
@@ -232,4 +235,18 @@ describe('Ao calcular o saldo do usuário...', () => {
 					});
 			});
 	});
+});
+
+test('Deve calcular saldo das contas do usuário', () => {
+	return request(app)
+		.get(MAIN_ROUTE)
+		.set('authorization', `bearer ${TOKEN_GERAL}`)
+		.then((res) => {
+			expect(res.status).toBe(200);
+			expect(res.body).toHaveLength(2);
+			expect(res.body[0].id).toBe(10104);
+			expect(res.body[0].sum).toBe('162.00');
+			expect(res.body[1].id).toBe(10105);
+			expect(res.body[1].sum).toBe('-248.00');
+		});
 });
