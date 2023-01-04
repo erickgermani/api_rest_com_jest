@@ -1,7 +1,3 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.up = (knex) => {
 	return Promise.all([
 		knex.schema.createTable('transfers', (t) => {
@@ -19,10 +15,6 @@ exports.up = (knex) => {
 	]);
 };
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.down = (knex) => {
 	return Promise.all([
 		knex.schema.table('transactions', (t) => {

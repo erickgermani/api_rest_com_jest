@@ -1,9 +1,5 @@
 const moment = require('moment');
 
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.seed = async (knex) => {
 	return knex('users')
 		.insert([

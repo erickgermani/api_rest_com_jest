@@ -1,7 +1,3 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> }
- */
 exports.seed = (knex) => {
 	return knex('transactions')
 		.del()
